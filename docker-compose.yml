@@ -2,6 +2,28 @@
 version: '2'
 
 services:
+  web: &ruby_app
+    depends_on:
+      - 'db'
+      - 'redis'
+    build: .
+    ports:
+      - '9292:9292'
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_NAME="observer-dev"
+      - DATABASE_USER="postgres"
+      - DATABASE_PASSWORD=
+      - DATABASE_HOST="db"
+      - DATABASE_PORT="5432"
+      - SCHEMA=db/schema.rb
+      - SIDEKIQ_REDIS_URL=redis://redis:6379/0
+
+  sidekiq:
+    <<: *ruby_app
+    command: bin/sidekiq
+    ports: []
+
   db:
     image: 'postgres:10-alpine'
     restart: always
