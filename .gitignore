@@ -1,0 +1,4 @@
+.env*
+!.env.example
+.byebug_history
+*.log

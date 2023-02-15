@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'bundler/setup'
+
+$LOAD_PATH.unshift File.expand_path('..', __dir__)
+require 'app/application'
+
+def reload!
+  puts('Reloading...')
+  Kernel.exec($PROGRAM_NAME)
+end
+
+if defined?(Pry)
+  Pry.start
+else
+  require 'irb'
+
+  IRB.start
+end
