@@ -40,3 +40,12 @@ Sidekiq.configure_client do |config|
   config.redis = redis_config
 end
 
+
+require './app/models/ip_address'
+require './app/models/observation'
+require './app/models/observation_result'
+
+require './app/services/report'
+require './app/services/ping'
+
+require './app/jobs/pinger'

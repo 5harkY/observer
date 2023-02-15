@@ -6,8 +6,6 @@ default: &default
 
   pool: <%= ENV.fetch('MAX_THREADS') { 5 } %>
 
-  database: <%= ENV.fetch('DATABASE_NAME') %>
-
   username: <%= ENV.fetch('DATABASE_USER') %>
 
   password: <%= ENV.fetch('DATABASE_PASSWORD') %>
@@ -17,12 +15,12 @@ default: &default
   port: <%= ENV.fetch('DATABASE_PORT') %>
 
 development:
-
   <<: *default
+  database: <%= ENV.fetch('DATABASE_NAME') %>
 
 test:
-
   <<: *default
+  database: observer-test
 
 staging:
 

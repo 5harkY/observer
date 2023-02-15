@@ -1,5 +1,6 @@
 require 'sinatra'
 require './app/application'
+require './app/validation_contract'
 
 post '/observations/start' do
   content_type :json
@@ -37,7 +38,8 @@ get '/report' do
   check_validation_result(validation_result)
 
   result = Services::Report.new.call(**validation_result.to_h)
-  halt(400, { errors: { observations: :not_found} }.to_json) if result[:avg_rtt].zero?
+  halt(400, { errors: { observations: :not_found} }.to_json) if result.empty?
+
   result.to_json
 end
 

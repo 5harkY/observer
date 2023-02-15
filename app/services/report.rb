@@ -2,8 +2,12 @@ module Services
   class Report
     def call(address:, start_time:, end_time:)
       addr = IpAddress.find_by(address:)
+      return {} unless addr
+
       observations = addr.observation_results.where('created_at >= ?', start_time)
                          .where('created_at <= ?', end_time).order(:rtt)
+      return {} unless observations
+
       success_observations = observations.where(success: true)
       success_rtts = success_observations.pluck(:rtt)
       avg_rtt = avg(success_rtts)

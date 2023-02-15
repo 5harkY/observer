@@ -16,3 +16,12 @@ gem 'erb'
 gem 'yaml'
 
 gem 'sidekiq'
+
+group :test do
+  gem 'rspec'
+  gem 'database_cleaner-active_record'
+end
+
+group :development, :test do
+  gem 'byebug'
+end
