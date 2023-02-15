@@ -154,6 +154,7 @@ DEPENDENCIES
   erb
   pg
   puma
+  rack-test
   rake
   rspec
   sidekiq

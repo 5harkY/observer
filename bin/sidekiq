@@ -2,4 +2,4 @@
 
 set -e
 
-exec bundle exec sidekiq -r ./app/application.rb
+exec bundle exec sidekiq -r ./config/environment.rb
