@@ -31,7 +31,7 @@ class ObservationsApi < Sinatra::Base
     halt(200, { msg: 'was not under observation' }.to_json) unless addr&.under_observation?
 
     addr.stop_observation
-    { msg: 'observation_stopped' }.to_json
+    { msg: 'observation stopped' }.to_json
   end
 
   get '/report' do
@@ -42,7 +42,8 @@ class ObservationsApi < Sinatra::Base
 
     params = validation_result.to_h.slice(:address, :start_time, :end_time)
     result = Services::Report.new.call(**params)
-    halt(400, { errors: { observations: :not_found} }.to_json) if result.empty? || result[:avg_rtt].nil?
+
+    halt(400, { errors: { address: ['observations for given time interval was not found'] } }.to_json) if result.empty? || result[:avg_rtt].nil?
 
     result.to_json
   end

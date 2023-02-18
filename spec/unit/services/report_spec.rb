@@ -54,4 +54,32 @@ RSpec.describe Services::Report, '#call' do
     end
 
   end
+
+  context 'with all success' do
+    let(:start_time) { Time.now.beginning_of_day }
+    let(:end_time) { Time.now.end_of_day }
+    let(:address) { '8.8.8.8' }
+    let(:params) { { address:, start_time:, end_time: } }
+
+    before do
+      addr = IpAddress.create(address:)
+      rtt = 0.0
+      created_at = start_time
+      10.times do
+        rtt += 10
+        created_at += 1.minute
+        addr.observation_results.create(created_at:, rtt:, success: true)
+      end
+    end
+
+    it 'calculates correct values' do
+      expect(result[:avg_rtt]).to eq 55
+      expect(result[:min_rtt]).to eq 10
+      expect(result[:max_rtt]).to eq 100
+      expect(result[:median_rtt]).to eq 55
+      expect(result[:lost_percentage]).to eq 0
+      expect((result[:std_deviation] - 30.27650).abs).to be < 0.00001
+    end
+
+  end
 end

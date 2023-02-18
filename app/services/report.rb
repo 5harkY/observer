@@ -2,7 +2,6 @@ module Services
   class Report
     def call(address:, start_time:, end_time:)
       calc_in_db(address:, start_time:, end_time:)
-      # calc_in_app(address:, start_time:, end_time:)
     end
 
     private
@@ -21,11 +20,9 @@ module Services
         STDDEV(rtt) AS std_deviation
       ").map { |r| r.attributes.symbolize_keys }.first
 
-      result.merge(base_query.select("
-        AVG( (NOT success)::int * 100) AS lost_percentage,
-        COUNT(1) AS observations,
-        SUM(success::int) AS success_observations
-      ").map { |r| r.attributes.symbolize_keys }.first)
+      lost_percentage = base_query.select("AVG( (NOT success)::int * 100) AS val").first["val"].to_f
+
+      result.merge(lost_percentage:)
     end
 
     def calc_in_app(address:, start_time:, end_time:)
