@@ -7,6 +7,11 @@ module Services
     private
 
     def sys_ping(addr)
+      begin
+        addr = IPAddr.new(addr)
+      rescue IPAddr::InvalidAddressError, IPAddr::AddressFamilyError
+        nil
+      end
       `ping6 -c 1 -w 1 #{addr}` if addr.ipv6?
       `ping -c 1 -w 1 #{addr}` if addr.ipv4?
     end

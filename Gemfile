@@ -19,6 +19,7 @@ gem 'erb'
 gem 'yaml'
 
 gem 'sidekiq'
+gem "sidekiq-cron"
 
 group :test do
   gem 'rspec'

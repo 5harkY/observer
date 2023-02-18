@@ -1,0 +1,3 @@
+task_manager:
+  cron: "* * * * *"
+  class: "Jobs::TaskManager"

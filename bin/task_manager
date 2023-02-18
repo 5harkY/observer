@@ -1,5 +1,0 @@
-#!/usr/bin/env sh
-
-set -e
-
-exec bundle exec ruby ./app/task_manager.rb

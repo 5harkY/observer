@@ -25,6 +25,7 @@ ActiveRecord::Base.establish_connection(db_configuration[ENV['ENVIRONMENT']])
 
 
 require 'sidekiq'
+require 'sidekiq-cron'
 
 def redis_config
   {
@@ -34,6 +35,14 @@ end
 
 Sidekiq.configure_server do |config|
   config.redis = redis_config
+
+  config.on(:startup) do
+    schedule_file = "config/schedule.yml"
+
+    if File.exist?(schedule_file)
+      Sidekiq::Cron::Job.load_from_hash YAML.load_file(schedule_file)
+    end
+  end
 end
 
 Sidekiq.configure_client do |config|
@@ -49,3 +58,4 @@ require './app/services/report'
 require './app/services/ping'
 
 require './app/jobs/pinger'
+require './app/jobs/task_manager'
