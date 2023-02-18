@@ -6,7 +6,7 @@ require 'bundler/setup'
 $LOAD_PATH.unshift File.expand_path('..', __dir__)
 require 'config/environment'
 
-def reload!
+def reload! # rubocop:disable Style/TopLevelMethodDefinition
   puts('Reloading...')
   Kernel.exec($PROGRAM_NAME)
 end

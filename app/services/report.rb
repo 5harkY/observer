@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Services
   class Report
     def call(address:, start_time:, end_time:)
@@ -20,7 +22,7 @@ module Services
         STDDEV(rtt) AS std_deviation
       ").map { |r| r.attributes.symbolize_keys }.first
 
-      lost_percentage = base_query.select("AVG( (NOT success)::int * 100) AS val").first["val"].to_f
+      lost_percentage = base_query.select('AVG( (NOT success)::int * 100) AS val').first['val'].to_f
 
       result.merge(lost_percentage:)
     end
@@ -30,7 +32,7 @@ module Services
       return {} unless addr
 
       observations = addr.observation_results.where('created_at >= ?', start_time)
-                         .where('created_at <= ?', end_time).order(:rtt)
+        .where('created_at <= ?', end_time).order(:rtt)
       return {} unless observations
 
       success_observations = observations.where(success: true)
@@ -64,15 +66,15 @@ module Services
     end
 
     def variance(arr, mean)
-      return 0 if arr.size.zero?
+      return 0 if arr.empty?
 
       sum = 0.0
-      arr.each {|v| sum += (v - mean)**2 }
+      arr.each { |v| sum += (v - mean)**2 }
       sum / (arr.size - 1)
     end
 
     def std_deviation(arr, mean)
-      return 0 if arr.size.zero?
+      return 0 if arr.empty?
 
       Math.sqrt(variance(arr, mean))
     end
@@ -81,8 +83,7 @@ module Services
       return 0 if total.zero?
 
       failed = total - success
-      100.0 * failed / total
+      failed * 100.0 / total
     end
-
   end
 end

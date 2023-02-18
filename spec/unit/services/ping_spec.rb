@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Services::Ping, '#call' do
   subject(:service) { described_class.new }
   let(:result) { service.call(address) }
@@ -25,7 +27,7 @@ RSpec.describe Services::Ping, '#call' do
       start_time = Time.now
       expect(result).to eq zero_response
       execution_time = Time.now - start_time
-      expect(execution_time - 1.second).to be < 0.1
+      expect(execution_time - timeout.seconds).to be < 0.1
     end
   end
 
@@ -35,5 +37,4 @@ RSpec.describe Services::Ping, '#call' do
       expect(rtt).to be > 0
     end
   end
-
 end

@@ -1,4 +1,5 @@
+# frozen_string_literal: true
+
 require './app/observations_api'
 
-# run Sinatra::Application
-run Rack::URLMap.new("/" => ObservationsApi)
+run Rack::URLMap.new('/' => ObservationsApi)

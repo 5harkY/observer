@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class IpAddress < ActiveRecord::Base
   has_many :observations
   has_many :observation_results
@@ -9,13 +11,15 @@ class IpAddress < ActiveRecord::Base
       observations.create
     end
   end
+
   def stop_observation
     Observation.transaction do
       return unless under_observation?
 
-      active_observation.update(stopped_at: DateTime.now)
+      active_observation.update(stopped_at: Time.now)
     end
   end
+
   def under_observation?
     active_observation.present?
   end

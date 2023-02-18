@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'open3'
 
 module Services
@@ -12,10 +14,12 @@ module Services
       addr = begin
         IPAddr.new(addr)
       rescue IPAddr::InvalidAddressError, IPAddr::AddressFamilyError
-        return nil
+        nil
       end
+      return unless addr
+
       begin
-        Timeout::timeout(timeout_sec + 1) do
+        Timeout.timeout(timeout_sec + 1) do
           ping_cmd = addr.ipv6? ? 'ping6' : 'ping'
           out, _err, _st = Open3.capture3(ping_cmd, '-c', '1', '-W', '1', addr.to_s)
           out
@@ -23,7 +27,6 @@ module Services
       rescue Timeout::Error
         nil
       end
-
     end
 
     def parse_result(result_str)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateObservationResults < ActiveRecord::Migration[7.0]
   def change
     hypertable_options = {
@@ -8,7 +10,6 @@ class CreateObservationResults < ActiveRecord::Migration[7.0]
     }
 
     create_table(:observation_results, id: false, hypertable: hypertable_options) do |t|
-
       t.references :ip_address, null: false
       t.float :rtt
       t.boolean :success, null: false

@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'dry-validation'
 
 class AddressContract < Dry::Validation::Contract
-
   params do
     required(:address).filled(:string)
   end
@@ -12,7 +13,6 @@ class AddressContract < Dry::Validation::Contract
   rescue IPAddr::InvalidAddressError, IPAddr::AddressFamilyError
     key.failure('must be an ip address')
   end
-
 end
 
 class ReportContract < AddressContract
@@ -26,6 +26,6 @@ class ReportContract < AddressContract
   end
 
   rule(:start_time) do
-    key.failure('must be in the past') if value > DateTime.now
+    key.failure('must be in the past') if value > Time.now
   end
 end
