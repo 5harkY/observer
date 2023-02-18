@@ -10,6 +10,8 @@ gem 'dry-validation'
 gem 'pg'
 gem 'activerecord'
 gem 'standalone_migrations'
+gem 'timescaledb'
+
 
 gem 'rake'
 gem 'dotenv'

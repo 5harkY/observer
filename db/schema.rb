@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_18_071822) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_12_124848) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "timescaledb"
@@ -28,7 +28,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_18_071822) do
     t.datetime "created_at", null: false
     t.index ["created_at"], name: "observation_results_created_at_idx", order: :desc
     t.index ["ip_address_id"], name: "index_observation_results_on_ip_address_id"
-    t.index ["rtt", "created_at"], name: "index_observation_results_on_rtt_created_at", order: { created_at: :desc }
   end
 
   create_table "observations", force: :cascade do |t|
@@ -38,5 +37,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_18_071822) do
     t.index ["ip_address_id"], name: "index_observations_on_ip_address_id"
   end
 
-  create_hypertable "observation_results", time_column: "created_at", chunk_time_interval: "7 days"
+  create_hypertable "observation_results", time_column: "created_at", chunk_time_interval: "1 minute", compress_segmentby: "ip_address_id", compress_orderby: "created_at ASC", compression_interval: "P50D"
 end
