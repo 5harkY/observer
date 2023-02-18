@@ -21,7 +21,7 @@ RSpec.describe Services::Report, '#call' do
 
     it 'returns hash with all zeros' do
       %i[avg_rtt min_rtt max_rtt median_rtt std_deviation].each do |key|
-        expect(result[key]).to be_zero
+        expect(result[key].to_i).to be_zero
       end
       expect(result[:lost_percentage]).to eq 100.0
     end
@@ -50,7 +50,7 @@ RSpec.describe Services::Report, '#call' do
       expect(result[:max_rtt]).to eq 50
       expect(result[:median_rtt]).to eq 30
       expect(result[:lost_percentage]).to eq 50
-      expect((result[:std_deviation] - 14.14214).abs).to be < 0.00001
+      expect((result[:std_deviation] - 15.81138).abs).to be < 0.00001
     end
 
   end

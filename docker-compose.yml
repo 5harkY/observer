@@ -25,12 +25,12 @@ services:
     ports: []
 
   db:
-    image: 'postgres:10-alpine'
+    image: 'timescale/timescaledb:latest-pg14'
     restart: always
     environment:
       POSTGRES_HOST_AUTH_METHOD: trust
     volumes:
-      - db-data:/var/lib/postgresql/data
+      - db-data-1:/var/lib/postgresql/data
     ports:
       - 15432:5432
 
@@ -41,4 +41,4 @@ services:
       - '16379:6379'
 
 volumes:
-  db-data:
+  db-data-1:

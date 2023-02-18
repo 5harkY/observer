@@ -42,7 +42,7 @@ class ObservationsApi < Sinatra::Base
 
     params = validation_result.to_h.slice(:address, :start_time, :end_time)
     result = Services::Report.new.call(**params)
-    halt(400, { errors: { observations: :not_found} }.to_json) if result.empty?
+    halt(400, { errors: { observations: :not_found} }.to_json) if result.empty? || result[:avg_rtt].nil?
 
     result.to_json
   end

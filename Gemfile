@@ -8,10 +8,11 @@ gem 'puma'
 gem 'dry-validation'
 
 gem 'pg'
+gem 'activerecord'
 gem 'standalone_migrations'
+
 gem 'rake'
 gem 'dotenv'
-gem 'activerecord'
 gem 'erb'
 gem 'yaml'
 

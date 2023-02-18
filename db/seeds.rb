@@ -1,7 +1,7 @@
 require 'bundler/setup'
 
 $LOAD_PATH.unshift File.expand_path('..', __dir__)
-require 'app/application'
+require 'config/environment'
 
 addresses = %w[192.168.10.254 8.8.8.8 1.1.1.1 192.168.0.1 5.5.5.5]
 step_5sec = (1.to_f/24/60/12)
