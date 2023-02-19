@@ -19,6 +19,7 @@ gem 'erb'
 gem 'rake'
 gem 'yaml'
 
+gem 'parallel'
 gem 'sidekiq'
 gem 'sidekiq-cron'
 

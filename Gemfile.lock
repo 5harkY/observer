@@ -190,6 +190,7 @@ DEPENDENCIES
   dotenv
   dry-validation
   erb
+  parallel
   pg
   puma
   rack-test

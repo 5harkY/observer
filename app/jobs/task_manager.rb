@@ -5,7 +5,9 @@ module Jobs
     include Sidekiq::Job
 
     def perform
-      Observation.active.pluck(:id).each { |obs_id| Jobs::Pinger.perform_async(obs_id) }
+      Observation.active.in_batches(of: 100) do |relation|
+        Jobs::Pinger.perform_async(relation.pluck(:id))
+      end
     end
   end
 end
