@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'open3'
-
 module Services
   class Ping
     def call(addr, timeout_sec = 1)
@@ -11,10 +9,9 @@ module Services
     private
 
     def sys_ping(addr, timeout_sec)
-      Timeout.timeout(timeout_sec + 1) do
+      Timeout.timeout(timeout_sec + 0.1) do
         ping_cmd = addr.ipv6? ? 'ping6' : 'ping'
-        out, _err, _st = Open3.capture3(ping_cmd, '-c', '1', '-W', '1', addr.to_s)
-        out
+        `#{ping_cmd} -c 1 -w 1 #{addr} 2>&1`
       end
     rescue Timeout::Error
       nil
