@@ -25,8 +25,8 @@ jobs:
         image: postgres:14.6
         env:
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: ""
-          POSTGRES_DB: observer-test
+          POSTGRES_HOST_AUTH_METHOD: trust
+#          POSTGRES_DB: observer-test
         ports:
           - 5432:5432
         # needed because the postgres container does not provide a healthcheck
