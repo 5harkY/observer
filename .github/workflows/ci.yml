@@ -53,6 +53,7 @@ jobs:
           DATABASE_PORT: 5432
           SCHEMA: "db/schema.rb"
           ENVIRONMENT: test
+          RAILS_ENV: test
         run: |
           rake db:create db:schema:load
           bundle exec rspec
