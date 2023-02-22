@@ -16,9 +16,21 @@ on:
     branches: [ master ]
 
 jobs:
-  test:
+  rspec:
 
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:14.6
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: ""
+          POSTGRES_DB: observer-test
+        ports:
+          - 5432:5432
+        # needed because the postgres container does not provide a healthcheck
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
       - uses: actions/checkout@v3
@@ -27,5 +39,20 @@ jobs:
         with:
           ruby-version: '3.1.2'
           bundler-cache: true
-      - name: Run tests
-        run: rspec
+
+      - name: Setup DB, Run tests
+        env:
+#          PGHOST: postgres
+#          PGUSER: postgres
+#          PGPORT: ${{ job.services.postgres.ports[5432] }}
+
+          DATABASE_HOST: postgres
+          DATABASE_NAME: observer-test
+          DATABASE_USER: postgres
+          DATABASE_PASSWORD: ""
+          DATABASE_PORT: 5432
+          SCHEMA: "db/schema.rb"
+          ENVIRONMENT: test
+        run: |
+          rake db:create db:schema:load
+          bundle exec rspec
